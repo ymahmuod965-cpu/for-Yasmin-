@@ -1,0 +1,787 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Youssef ❤️ Yasmin</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box}
+
+body{
+ margin:0;
+ min-height:100vh;
+ font-family:'Cairo',sans-serif;
+ color:#fff;
+ background:
+ radial-gradient(circle at 15% 10%,#51265e,transparent 35%),
+ radial-gradient(circle at 85% 80%,#70284e,transparent 32%),
+ linear-gradient(145deg,#100b20,#21102f 55%,#120b22);
+ overflow-x:hidden;
+}
+
+header{
+ text-align:center;
+ padding:25px 12px 15px;
+}
+
+header h1{
+ color:#ffb5d5;
+ font-size:clamp(27px,7vw,40px);
+ margin:0;
+}
+
+header p{color:#e7cce0;margin:5px}
+
+main{
+ width:min(900px,92%);
+ margin:22px auto 40px;
+}
+
+.page{display:none}
+
+.page.active{
+ display:block;
+ animation:appear .4s ease;
+}
+
+@keyframes appear{
+ from{opacity:0;transform:translateY(15px)}
+ to{opacity:1;transform:none}
+}
+
+.card{
+ background:#281d3bef;
+ border:1px solid #71466e88;
+ border-radius:24px;
+ padding:25px;
+ margin:15px 0;
+ box-shadow:0 18px 48px #0004;
+ text-align:center;
+}
+
+h2{color:#ffabd0}
+h3{color:#d8b8ff}
+p{line-height:2;color:#f2e5f1}
+
+.big-icon{
+ font-size:65px;
+ margin:10px;
+}
+
+button{
+ font-family:'Cairo',sans-serif;
+ cursor:pointer;
+ border:1px solid #70466f;
+ border-radius:999px;
+ padding:11px 22px;
+ background:#2a1d3b;
+ color:white;
+ font-weight:700;
+ transition:.2s;
+}
+
+button:hover{transform:translateY(-2px)}
+
+.action,.next-button{
+ background:linear-gradient(110deg,#c44f91,#7956bd);
+ border:0;
+ color:white;
+}
+
+.next-area{
+ text-align:center;
+ margin:25px 0 35px;
+}
+
+.next-button{
+ font-size:17px;
+ min-width:155px;
+ padding:13px 25px;
+}
+
+.spotify-frame{
+ width:100%;
+ height:352px;
+ border:0;
+ border-radius:14px;
+}
+
+.gift-stage{
+ position:relative;
+ padding:25px 12px;
+ border-radius:22px;
+ background:radial-gradient(ellipse,#58365d,#21172f);
+ overflow:hidden;
+}
+
+.teddy{
+ font-size:125px;
+ animation:bob 2s infinite ease-in-out;
+}
+
+@keyframes bob{
+ 50%{transform:translateY(-9px) rotate(3deg)}
+}
+
+.gift-button{
+ display:block;
+ margin:0 auto;
+ background:transparent;
+ border:0;
+ font-size:80px;
+}
+
+.gift-hint{color:#ffd4e8}
+
+.hidden-message{
+ display:none;
+ margin-top:18px;
+ padding:18px;
+ border-radius:18px;
+ background:#ffffff12;
+ border:1px solid #ffb5d577;
+}
+
+.hidden-message.show{
+ display:block;
+ animation:appear .4s;
+}
+
+.rose{
+ font-size:65px;
+ display:inline-block;
+ transition:.5s;
+}
+
+.rose.open{
+ transform:scale(1.35) rotate(-12deg);
+}
+
+/* مربعات الذكريات */
+#loveMessage .memories{
+ display:grid;
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:14px;
+ margin-top:22px;
+}
+
+#loveMessage .memory-card{
+ aspect-ratio:1/1;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ text-align:center;
+ padding:12px;
+ border-radius:22px;
+ font-size:17px;
+ background:#ffffff12;
+ border:1px solid #ffffff30;
+ box-shadow:0 5px 18px #0002;
+ cursor:pointer;
+ transition:.25s;
+}
+
+#loveMessage .memory-card:hover{
+ background:#a94c8a55;
+ transform:translateY(-4px);
+}
+
+/* الكارت الخامس في المنتصف */
+#loveMessage .memory-card:last-child{
+ grid-column:1/-1;
+ width:calc(50% - 7px);
+ justify-self:center;
+}
+
+/* توضيح طريقة فتح الكروت */
+.memory-hint{
+ color:#ffc4df;
+ font-size:17px;
+ font-weight:bold;
+ line-height:2;
+ margin:18px 0;
+ animation:hintGlow 2s infinite alternate;
+}
+
+@keyframes hintGlow{
+ from{text-shadow:0 0 3px #ff8fc4}
+ to{text-shadow:0 0 15px #ff5ca9}
+}
+
+/* الكارت المختار */
+.memory-card.selected{
+ border:2px solid #ff8fc4!important;
+ background:#d94e9560!important;
+ box-shadow:0 0 22px #ff70b8;
+ transform:scale(1.04);
+}
+
+/* الرسالة فوق المربعات */
+#memoryDetail{
+ display:none;
+ width:100%;
+ margin-top:22px;
+ margin-bottom:22px;
+ padding:22px;
+ border-radius:22px;
+ text-align:center;
+ line-height:2.2;
+ font-size:18px;
+ background:#ffffff12;
+ border:1px solid #ffffff25;
+}
+
+#memoryDetail.show{
+ display:block;
+ animation:appear .35s;
+}
+
+/* القلوب المتطايرة */
+.flying-heart{
+ position:fixed;
+ pointer-events:none;
+ z-index:9999;
+ animation:heartFly 1.8s ease-out forwards;
+}
+
+@keyframes heartFly{
+ 0%{
+  transform:translate(0,0) scale(.5) rotate(0);
+  opacity:1;
+ }
+ 100%{
+  transform:translate(var(--x),var(--y)) scale(1.5) rotate(40deg);
+  opacity:0;
+ }
+}
+
+#yesBtn{
+ background:linear-gradient(110deg,#e85b9c,#8b5bd0);
+ font-size:17px;
+}
+
+#noBtn{background:#49304e}
+
+#answer{
+ font-size:23px;
+ color:#ffb5d5;
+ font-weight:800;
+}
+
+footer{
+ text-align:center;
+ padding:20px;
+ color:#b9a8bf;
+}
+
+.float{
+ position:fixed;
+ bottom:-30px;
+ color:#ff9fc7;
+ opacity:.4;
+ pointer-events:none;
+ animation:floatUp linear infinite;
+ z-index:-1;
+}
+
+@keyframes floatUp{
+ to{
+  transform:translateY(-110vh) rotate(30deg);
+  opacity:0;
+ }
+}
+
+@media(max-width:500px){
+ .card{padding:18px}
+ #loveMessage .memory-card{font-size:15px}
+ #memoryDetail{font-size:16px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+ <h1>Youssef ❤️ Yasmin</h1>
+ <p>حكايتنا الصغيرة 💗</p>
+</header>
+
+<main>
+
+<!-- الصفحة الأولى -->
+<section id="home" class="page active">
+ <div class="card">
+  <div class="big-icon">🌙💗</div>
+  <h2>أهلاً بيكي يا ياسمين ❤️</h2>
+  <p>عملتلك مكان صغير فيه شوية حاجات حلوة مخصوص ليكي.</p>
+  <p>كل صفحة فيها مفاجأة صغيرة، ويارب تعجبك. 🌷</p>
+ </div>
+</section>
+
+<!-- الصفحة الثانية -->
+<section id="songs" class="page">
+ <div class="card">
+  <h2>أغانينا 🎧</h2>
+  <p>اختاري الفنان واسمعي من Spotify ❤️</p>
+
+  <h3>رامي صبري</h3>
+  <iframe class="spotify-frame" src="https://open.spotify.com/embed/artist/5LtHZB7vU02HtNoOzNcVhc" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+
+  <h3>تامر عاشور</h3>
+  <iframe class="spotify-frame" src="https://open.spotify.com/embed/artist/5rCq30EbJ3DfZPKybGZj8F" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+
+  <h3>توو ليت</h3>
+  <iframe class="spotify-frame" src="https://open.spotify.com/embed/artist/5QKGejJMncXUNUb9pUFbEf" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+
+  <h3>إليسا</h3>
+  <iframe class="spotify-frame" src="https://open.spotify.com/embed/artist/68rvMwPL0yMbYR5cv0pzCR" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+ </div>
+</section>
+
+<!-- الصفحة الثالثة -->
+<section id="message" class="page">
+ <div class="card">
+  <div class="big-icon">💌</div>
+  <h2>رسالة مخصوص ليكي</h2>
+  <p>
+   يا ياسمين، يمكن الكلام مش دايمًا يعرف يوصف اللي جوانا،
+   بس حبيت أقولك إن وجودك بيضيف للحياة لون أجمل.
+   أتمنى دايمًا تفضلي مبسوطة وتحققي كل اللي بتحلمي بيه. ❤️
+  </p>
+  <p>من يوسف ❤️</p>
+ </div>
+</section>
+
+<!-- الصفحة الرابعة -->
+<section id="timer" class="page">
+ <div class="card">
+  <div class="big-icon">⏳❤️</div>
+  <h2>عداد حكايتنا</h2>
+  <p>كل ثانية بتعدي هي جزء من حكايتنا الجميلة 💗</p>
+
+  <div class="memories">
+   <div class="memory-card"><h2 id="days">0</h2>يوم</div>
+   <div class="memory-card"><h2 id="hours">0</h2>ساعة</div>
+   <div class="memory-card"><h2 id="minutes">0</h2>دقيقة</div>
+   <div class="memory-card"><h2 id="seconds">0</h2>ثانية</div>
+  </div>
+ </div>
+</section>
+
+<!-- الصفحة الخامسة: الهدية -->
+<section id="gift" class="page">
+ <div class="card">
+  <h2>هدية ليكي يا ياسمين 🎁</h2>
+
+  <div class="gift-stage">
+   <div class="teddy">🧸</div>
+   <button class="gift-button" id="giftButton">🎁</button>
+   <p class="gift-hint" id="giftHint">اضغطي على الهدية وافتحيها 💗</p>
+  </div>
+
+  <div class="hidden-message" id="loveMessage">
+
+   <h2>الهدية اتفتحت! 💖</h2>
+
+   <p>
+    يا ياسمين ❤️، الهدية دي بسيطة، بس معاها رسالة من القلب:
+    أتمنى أشوفك دايمًا مبسوطة، وكل يوم في حياتك يكون أحلى من اللي قبله.
+    وجودك بيخلّي للحاجات الصغيرة معنى جميل. 💖
+   </p>
+
+   <button class="action" id="secretButton">جواب سري 💌</button>
+
+   <div class="hidden-message" id="secretMessage">
+    <p>في حاجات كتير حلوة ممكن تتقال، بس أهم حاجة إني بتمنالك كل الخير والفرحة. 🌷❤️</p>
+   </div>
+
+   <h3>وردة ليكي 🌹</h3>
+   <div class="rose" id="rose">🌹</div>
+   <br>
+   <button class="action" id="roseButton">افتحي الوردة 🌸</button>
+
+   <hr style="border-color:#ffffff22;margin:25px 0">
+
+   <h2>📦 خمس حاجات من قلبي ليكي</h2>
+
+   <p class="memory-hint">
+    💌 اختاري كارت واضغطي عليه عشان تفتحي الرسالة اللي جواه
+    <br>
+    ✨ كل كارت مخبي ليكي حاجة حلوة
+   </p>
+
+   <!-- الرسالة تظهر فوق المربعات -->
+   <div class="memory-detail" id="memoryDetail"></div>
+
+   <div class="memories">
+
+    <div class="memory-card" onclick="showMemory('memory1')">
+     🌸 ذكرى جميلة
+    </div>
+
+    <div class="memory-card" onclick="showMemory('memory2')">
+     💗 كلمة ليكي
+    </div>
+
+    <div class="memory-card" onclick="showMemory('memory3')">
+     ⭐ أمنية ليكي
+    </div>
+
+    <div class="memory-card" onclick="showMemory('memory4')">
+     🎀 مفاجأة صغيرة
+    </div>
+
+    <div class="memory-card" onclick="showMemory('memory5')">
+     ❤️ أمنيتي أنا
+    </div>
+
+   </div>
+
+  </div>
+ </div>
+</section>
+
+<!-- الصفحة السادسة -->
+<section id="question" class="page">
+ <div class="card">
+  <div class="big-icon">🥺❤️</div>
+  <h2>سؤال مهم جدًا!</h2>
+  <p>بتحبيني؟ 🙈</p>
+
+  <div style="display:flex;justify-content:center;gap:15px;flex-wrap:wrap">
+   <button id="yesBtn">أيوه ❤️</button>
+   <button id="noBtn">لا 🙃</button>
+  </div>
+
+  <p id="answer"></p>
+ </div>
+</section>
+
+<!-- الصفحة السابعة -->
+<section id="surprise" class="page">
+ <div class="card">
+  <div class="big-icon">🎉💗</div>
+  <h2>وصلنا لآخر الحكاية!</h2>
+  <p id="surpriseText">بس لسه فيه مفاجأة أخيرة مستنياكي 🥹</p>
+  <button class="action" id="surpriseButton">افتحي المفاجأة ✨</button>
+ </div>
+</section>
+
+<!-- زرار التنقل الوحيد -->
+<div class="next-area">
+ <button class="next-button" id="nextButton">اللي بعده ❤️</button>
+</div>
+
+</main>
+
+<footer>صُنع بحب ❤️ Youssef & Yasmin</footer>
+
+<script>
+const pageIds=[
+ 'home',
+ 'songs',
+ 'message',
+ 'timer',
+ 'gift',
+ 'question',
+ 'surprise'
+];
+
+let currentPage=0;
+let noClicks=0;
+let giftOpened=false;
+
+const nextButton=document.getElementById('nextButton');
+
+/* التنقل بين الصفحات */
+function showPage(index){
+ if(index<0 || index>=pageIds.length)return;
+
+ currentPage=index;
+
+ document.querySelectorAll('.page').forEach((page,i)=>{
+  page.classList.toggle('active',i===index);
+ });
+
+ if(index===6){
+  nextButton.textContent='تعيدي تاني 🔄';
+  nextButton.style.display='inline-block';
+ }
+ else if(index===5 && !document.getElementById('answer').textContent){
+  nextButton.style.display='none';
+ }
+ else{
+  nextButton.textContent='اللي بعده ❤️';
+  nextButton.style.display='inline-block';
+ }
+
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* زرار اللي بعده وإعادة البداية */
+nextButton.addEventListener('click',()=>{
+ if(currentPage===6){
+  resetAll();
+ }else{
+  showPage(currentPage+1);
+ }
+});
+
+/* عداد الوقت من 1 أكتوبر 2026 */
+function updateTimer(){
+ const startDate=new Date(2026,9,1,0,0,0);
+ let diff=new Date()-startDate;
+
+ if(diff<0)diff=0;
+
+ document.getElementById('days').textContent=Math.floor(diff/86400000);
+ document.getElementById('hours').textContent=Math.floor((diff%86400000)/3600000);
+ document.getElementById('minutes').textContent=Math.floor((diff%3600000)/60000);
+ document.getElementById('seconds').textContent=Math.floor((diff%60000)/1000);
+}
+
+updateTimer();
+setInterval(updateTimer,1000);
+
+/* رسائل الذكريات الخمسة */
+const memoryMessages={
+
+ memory1:
+ 'أجمل الذكريات مش لازم تكون كبيرة... ساعات لحظة بسيطة وابتسامة حلوة بتفضل في البال. 🌸',
+
+ memory2:
+ 'حبيت أفكرك إنك تستاهلي كل الكلام الحلو وكل الفرحة اللي في الدنيا. وجودك حاجة جميلة. 💗',
+
+ memory3:
+ 'أمنيتي ليكي إن كل أحلامك تقرب منك، وإن أيامك الجاية تكون مليانة نجاح وفرحة وراحة بال. ⭐',
+
+ memory4:
+ 'المفاجأة الحقيقية إنك تستاهلي أيام حلوة كتير، وضحكة متغيبش عن وشك أبدًا. 🎀',
+
+ memory5:
+ 'دي ممكن متبقاش أمنيتك، بس دي أمنيتي أنا... إننا نكمل مع بعض ونفضل فاهمين بعض. ❤️ ومش عايزك تزعلي من أي تصرف مني، ولو عملت حاجة ضايقتك قوليلي، عشان ممكن أكون عملتها من غير ما أقصد أزعلك أو أكون مش واخد بالي إنها هتضايقك. أنا مش بقول كده عشان أبرر أي تصرف، بالعكس، أنا عايز أتعلم أفهمك وأراعي مشاعرك أكتر. كل اللي أتمناه إننا نفضل جنب بعض ونحل أي حاجة بالكلام والتفاهم. بحبك ❤️'
+};
+
+/* فتح كارت الذكريات والقلوب */
+function showMemory(key){
+
+ const detail=document.getElementById('memoryDetail');
+
+ detail.textContent=memoryMessages[key];
+ detail.classList.add('show');
+
+ const cards=document.querySelectorAll('#loveMessage .memory-card');
+
+ cards.forEach(card=>{
+  card.classList.remove('selected');
+ });
+
+ const keys=['memory1','memory2','memory3','memory4','memory5'];
+ const index=keys.indexOf(key);
+
+ if(index>=0){
+  cards[index].classList.add('selected');
+ }
+
+ /* قلوب كتير مع كل ضغطة */
+ for(let i=0;i<35;i++){
+
+  const heart=document.createElement('span');
+
+  heart.className='flying-heart';
+  heart.textContent=['💗','💕','💖','❤️','💘'][i%5];
+
+  heart.style.left=(5+Math.random()*90)+'vw';
+  heart.style.top=(45+Math.random()*40)+'vh';
+  heart.style.fontSize=(18+Math.random()*25)+'px';
+
+  heart.style.setProperty(
+   '--x',
+   (Math.random()-.5)*250+'px'
+  );
+
+  heart.style.setProperty(
+   '--y',
+   (-100-Math.random()*350)+'px'
+  );
+
+  document.body.appendChild(heart);
+
+  setTimeout(()=>heart.remove(),1900);
+ }
+
+}
+
+/* فتح الهدية */
+document.getElementById('giftButton').addEventListener('click',()=>{
+
+ if(giftOpened)return;
+
+ giftOpened=true;
+
+ document.getElementById('loveMessage').classList.add('show');
+
+ document.getElementById('giftHint').textContent='الهدية اتفتحت ❤️';
+
+ document.getElementById('giftButton').textContent='💝';
+
+ makeHeartBurst();
+});
+
+/* قلوب فتح الهدية */
+function makeHeartBurst(){
+
+ for(let i=0;i<24;i++){
+
+  const heart=document.createElement('span');
+
+  heart.textContent=['💗','💖','💕','❤️'][i%4];
+
+  heart.style.position='fixed';
+  heart.style.left=Math.random()*100+'vw';
+  heart.style.top='70vh';
+  heart.style.fontSize=(18+Math.random()*18)+'px';
+  heart.style.pointerEvents='none';
+  heart.style.zIndex='100';
+
+  document.body.appendChild(heart);
+
+  const x=(Math.random()-.5)*220;
+  const y=-100-Math.random()*350;
+
+  heart.animate([
+   {transform:'translate(0,0) scale(1)',opacity:1},
+   {transform:`translate(${x}px,${y}px) scale(.3)`,opacity:0}
+  ],{
+   duration:1400,
+   easing:'ease-out'
+  });
+
+  setTimeout(()=>heart.remove(),1450);
+ }
+}
+
+/* الجواب السري */
+document.getElementById('secretButton').addEventListener('click',()=>{
+ document.getElementById('secretMessage').classList.toggle('show');
+});
+
+/* الوردة */
+document.getElementById('roseButton').addEventListener('click',()=>{
+
+ const rose=document.getElementById('rose');
+
+ rose.classList.toggle('open');
+
+ document.getElementById('roseButton').textContent=
+ rose.classList.contains('open')
+ ?'وردة مفتوحة ليكي ❤️'
+ :'افتحي الوردة 🌸';
+});
+
+/* سؤال بتحبيني؟ */
+const yesBtn=document.getElementById('yesBtn');
+const noBtn=document.getElementById('noBtn');
+const answer=document.getElementById('answer');
+
+noBtn.addEventListener('click',()=>{
+
+ noClicks++;
+
+ const scale=1+noClicks*.22;
+
+ yesBtn.style.transform=`scale(${scale})`;
+
+ if(noClicks>=5){
+  noBtn.style.display='none';
+ }
+});
+
+yesBtn.addEventListener('click',()=>{
+
+ answer.textContent='وأنا كمان بحبك ❤️🥹';
+
+ nextButton.textContent='اللي بعده ❤️';
+ nextButton.style.display='inline-block';
+});
+
+/* المفاجأة */
+document.getElementById('surpriseButton').addEventListener('click',()=>{
+
+ document.getElementById('surpriseText').textContent=
+ 'يا ياسمين، أتمنى ليكي كل السعادة والنجاح، وتفضلي دايمًا بتضحكي ومبسوطة. شكرًا على كل لحظة حلوة. ❤️🥹';
+
+});
+
+/* إعادة الحكاية من الأول */
+function resetAll(){
+
+ giftOpened=false;
+ noClicks=0;
+
+ /* الهدية */
+ document.getElementById('giftButton').textContent='🎁';
+
+ document.getElementById('giftHint').textContent=
+ 'اضغطي على الهدية وافتحيها 💗';
+
+ document.getElementById('loveMessage').classList.remove('show');
+
+ document.getElementById('secretMessage').classList.remove('show');
+
+ /* الذكريات */
+ const detail=document.getElementById('memoryDetail');
+
+ detail.classList.remove('show');
+ detail.textContent='';
+
+ document.querySelectorAll('#loveMessage .memory-card').forEach(card=>{
+  card.classList.remove('selected');
+ });
+
+ /* الوردة */
+ document.getElementById('rose').classList.remove('open');
+
+ document.getElementById('roseButton').textContent='افتحي الوردة 🌸';
+
+ /* السؤال */
+ yesBtn.style.transform='scale(1)';
+ noBtn.style.display='inline-block';
+ answer.textContent='';
+
+ /* المفاجأة */
+ document.getElementById('surpriseText').textContent=
+ 'بس لسه فيه مفاجأة أخيرة مستنياكي 🥹';
+
+ /* البداية */
+ nextButton.textContent='اللي بعده ❤️';
+
+ showPage(0);
+}
+
+/* قلوب متحركة في الخلفية */
+for(let i=0;i<18;i++){
+
+ const heart=document.createElement('span');
+
+ heart.className='float';
+ heart.textContent=['♥','♡','✦'][i%3];
+
+ heart.style.left=Math.random()*100+'vw';
+ heart.style.animationDuration=(9+Math.random()*9)+'s';
+ heart.style.animationDelay=(-Math.random()*16)+'s';
+ heart.style.fontSize=(12+Math.random()*20)+'px';
+
+ document.body.appendChild(heart);
+}
+
+/* بداية الموقع */
+showPage(0);
+</script>
+
+</body>
+</html>
